@@ -1,0 +1,44 @@
+name: Build Audio ART (VST3 + Standalone)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  build-macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build --config Release -j4
+      - name: Collect artifacts
+        run: |
+          mkdir -p dist
+          cp -R "build/AudioART_artefacts/Release/VST3/Audio ART.vst3" dist/ || true
+          cp -R "build/AudioART_artefacts/Release/Standalone/Audio ART.app" dist/ || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AudioART-macOS
+          path: dist
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build --config Release -j4
+      - name: Collect artifacts
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp -R "build/AudioART_artefacts/Release/VST3/Audio ART.vst3" dist/ || true
+          cp -R "build/AudioART_artefacts/Release/Standalone/Audio ART.exe" dist/ || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AudioART-Windows
+          path: dist

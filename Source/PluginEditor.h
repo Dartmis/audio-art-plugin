@@ -10,10 +10,10 @@ public:
     ClickToResetLabel (juce::String labelText, std::function<void()> onResetFn)
         : text (std::move (labelText)), onReset (std::move (onResetFn)) {}
 
-    void setValue (float db, const juce::String& unit)
+    void setValue (float db, const juce::String& unitStr)
     {
         value = db;
-        this->unit = unit;
+        unit = unitStr;
         repaint();
     }
 

@@ -9,7 +9,9 @@ AudioARTEditor::AudioARTEditor (AudioARTProcessor& p)
     lufsSLabel.onReset = [this] { proc.loudness.resetShortTerm(); };
     lufsILabel.onReset = [this] { proc.loudness.resetIntegrated(); };
 
-    for (auto* c : { (juce::Component*) &peakLabel, &rmsLabel, &lufsMLabel, &lufsSLabel, &lufsILabel })
+    for (juce::Component* c : { (juce::Component*) &peakLabel, (juce::Component*) &rmsLabel,
+                                 (juce::Component*) &lufsMLabel, (juce::Component*) &lufsSLabel,
+                                 (juce::Component*) &lufsILabel })
         addAndMakeVisible (c);
 
     setSize (780, 520);

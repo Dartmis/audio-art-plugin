@@ -16,9 +16,12 @@ jobs:
         run: cmake --build build --config Release -j4
       - name: Collect artifacts
         run: |
+          echo "---- Full artefacts tree ----"
+          find build/AudioART_artefacts -maxdepth 5
           mkdir -p dist
-          cp -R "build/AudioART_artefacts/Release/VST3/Audio ART.vst3" dist/ || true
-          cp -R "build/AudioART_artefacts/Release/Standalone/Audio ART.app" dist/ || true
+          cp -R build/AudioART_artefacts/Release/. dist/
+          echo "---- dist contents ----"
+          find dist -maxdepth 3
       - uses: actions/upload-artifact@v4
         with:
           name: AudioART-macOS
@@ -35,9 +38,12 @@ jobs:
       - name: Collect artifacts
         shell: bash
         run: |
+          echo "---- Full artefacts tree ----"
+          find build/AudioART_artefacts -maxdepth 5
           mkdir -p dist
-          cp -R "build/AudioART_artefacts/Release/VST3/Audio ART.vst3" dist/ || true
-          cp -R "build/AudioART_artefacts/Release/Standalone/Audio ART.exe" dist/ || true
+          cp -R build/AudioART_artefacts/Release/. dist/
+          echo "---- dist contents ----"
+          find dist -maxdepth 3
       - uses: actions/upload-artifact@v4
         with:
           name: AudioART-Windows
